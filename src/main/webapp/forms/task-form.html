@@ -1,0 +1,102 @@
+<strong>Proceso Espacio</strong>
+
+<p>
+  Aprobar Presupuesto
+</p>
+
+<form class="form-horizontal">
+  <div class="control-group">
+    <div class="controls">
+    
+      <label for="cotizacion" class="control-label">Cotización</label>
+      <input type="text" 
+             cam-variable-name="cotizacion"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+    
+     <label for="cliente" class="control-label">Cliente</label>
+      <input type="text" 
+             cam-variable-name="cliente"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+    
+      <label for="email" class="control-label">E-mail</label>
+      <input type="text" 
+             cam-variable-name="email"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+             
+      <label for="tel" class="control-label">Tel</label>
+      <input type="text" 
+             cam-variable-name="tel"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+             
+       <label for="celular" class="control-label">Celular</label>
+       <input type="text" 
+             cam-variable-name="celular"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+      
+      <label for="descripcion" class="control-label">Proyecto Espacio</label>
+      <textarea
+      		 cam-variable-name="descripcion"
+          	 cam-variable-type="String"
+          	 required
+          	 readonly
+          	 class="form-control">
+	  </textarea>
+          
+      <label for="moneda" class="control-label">Moneda</label>
+      <select 
+      		 cam-variable-name="moneda"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control">
+  			<option>$</option>
+  			<option>U$S</option>
+	  </select>
+           
+      <label for="costo" class="control-label">Costo</label>
+      <input type="text" 
+             cam-variable-name="costo"
+             cam-variable-type="String"
+             required
+             readonly
+             class="form-control" />
+      
+      <label for="condiciones" class="control-label">Condiciones</label>
+      <textarea
+      		 cam-variable-name="condiciones"
+          	 cam-variable-type="String"
+          	 required
+          	 readonly
+          	 class="form-control">
+	  </textarea>
+               
+      <br>
+      <label for="aprobar">Aprobar ?</label>
+      <input type="checkbox"
+             cam-variable-name="aprobar"
+             cam-variable-type="Boolean"
+             name="aprobar"
+             class="form-control" />
+  	</div>
+  </div>
+  
+  <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+  </script>
+
+</form>
