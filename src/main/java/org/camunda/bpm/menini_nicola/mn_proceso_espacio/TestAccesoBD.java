@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.fachada.Fachada;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePresupuesto;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
 
 public class TestAccesoBD {
@@ -34,8 +36,28 @@ public class TestAccesoBD {
 		presupuesto.setDescripcion("aaa aaaa aaaa aaa");
 		
 		f.insertarPresupuesto(presupuesto);
+		System.out.println("Se inserta presupuesto...");
 		
-	
+		VOClientePresupuesto clientePresupuesto = new VOClientePresupuesto();
+		int idCliente = f.obtenerIdCliente(cliente.getNombre());
+		int idPresupuesto = f.obtenerIdPresupuesto(presupuesto.getCotizacion());
+		
+		System.out.println("idPresupuesto: " + idPresupuesto);
+		byte estado = 1;
+		clientePresupuesto.setEstado(estado);
+		clientePresupuesto.setIdCliente(idCliente);
+		clientePresupuesto.setIdPresupuesto(idPresupuesto);
+		f.insertarClientePresupuesto(clientePresupuesto);
+		System.out.println("Se inserta clientePresupuesto...");
+		
+		VOEspacio espacio = new VOEspacio();
+		espacio.setCronograma("crongrama 1");
+		espacio.setValidez(30);
+		espacio.setIdPresupuesto(idPresupuesto);
+		
+		f.insertarEspacio(espacio);
+		System.out.println("Se inserta espacio...");
+		
 	}
 	
 	

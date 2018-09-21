@@ -20,4 +20,20 @@ public class Consultas {
 		String consulta = "INSERT INTO mn_presupuesto (cotizacion,fecha,moneda,costo,condicionesVenta,descripcion) VALUES(?,?,?,?,?,?);";
 		return consulta;
 	}
+	
+	public String obtenerIdPresupuesto() {
+		String consulta = "SELECT idPresupuesto FROM mn_presupuesto WHERE cotizacion = ?;";
+		return consulta;
+	}
+	
+	public String insertarClientePresupuesto() {
+		String consulta ="INSERT INTO mn_cliente_presupuesto (estado, idCliente, idPresupuesto) VALUES (?,?,?);";
+		return consulta;	
+	}
+	
+	public String insertarEspacio() {
+		String consulta ="INSERT INTO mn_espacio (cronograma, validez, idPresupuesto) VALUES (?,?,?);";
+		return consulta;	
+	}
+	
 }

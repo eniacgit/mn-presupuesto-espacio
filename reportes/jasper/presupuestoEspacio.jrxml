@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.1.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="presupuestoEspacio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8de5e37-019f-46aa-833a-28f0b3da6900">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="cotizacion" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="descripcion" class="java.lang.String"/>
+	<parameter name="moneda" class="java.lang.String"/>
+	<parameter name="costo" class="java.lang.Float"/>
+	<parameter name="condiciones" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="120" height="79" uuid="369154a7-0084-4d59-8696-b2722dc444a6"/>
+				<imageExpression><![CDATA["reportes//jasper//imagenes//logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="120" y="50" width="428" height="20" uuid="ec4077b6-49c6-487b-8d57-96085f43cfd0"/>
+				<textElement>
+					<font fontName="Abyssinica SIL"/>
+				</textElement>
+				<text><![CDATA[menini.nicola@gmail.com | +(598) 2900 0104 | san josé 967 of. 5 - montevideo - uruguay | menini-nicola.com]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="115" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="180" height="30" uuid="76d706cd-0804-4268-b8b0-25988fc33658"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COTIZACIÓN Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="50" height="19" uuid="93a74f44-8c82-4939-9700-00faae73e4e4"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="50" height="20" uuid="6cba3e85-1196-489f-b966-63532e0c5805"/>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="50" height="20" uuid="bf28775d-62c7-4e1e-800e-4d138d12af50"/>
+				<text><![CDATA[E-mail:]]></text>
+			</staticText>
+			<textField pattern="d MMMM, yyyy">
+				<reportElement x="60" y="41" width="500" height="17" uuid="35b2793e-2189-46e3-8e4a-bcdedb7dbd13"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="100" width="560" height="1" uuid="304f0a2a-5915-4fa6-9214-67fc2d0ef4d9"/>
+			</line>
+			<textField>
+				<reportElement x="180" y="11" width="360" height="24" uuid="17ab3012-a191-4cb4-9e11-9901b3d8437d"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cotizacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="60" width="500" height="20" uuid="c52143a2-6e47-4875-a526-0d2aa9cd627f"/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="80" width="500" height="20" uuid="aefb70c7-11d9-4fa0-bcbd-da19a2e38432"/>
+				<textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="152" splitType="Stretch">
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="560" height="152" uuid="bcc634a4-2d0c-4b88-bb51-f0641c897c9c"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="110">
+			<staticText>
+				<reportElement x="0" y="10" width="560" height="20" uuid="89755529-3434-43eb-b2f7-1aff12299fc8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COSTO del PROYECTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="40" height="20" uuid="5ba9a629-3362-450d-9d95-bfe4d282a123"/>
+				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="30" width="40" height="20" uuid="f059aa5b-5808-4711-a2af-98cb6b88b3a7"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{costo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="30" width="40" height="20" uuid="6f736d43-c4ed-4b66-9cde-a7f3e7f64f66"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[+ IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="181d9dcf-c2df-4f68-917a-fb9b4f07742e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="0" y="80" width="560" height="30" uuid="3ab514bd-7d98-438b-81d0-88e65ea646ab"/>
+				<textFieldExpression><![CDATA[$P{condiciones}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="282" splitType="Stretch">
+			<textField>
+				<reportElement x="360" y="252" width="100" height="30" uuid="b129e742-3a2f-4aa9-8774-f7babdbb055a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="460" y="252" width="100" height="30" uuid="8d7056c9-61ea-46f5-9396-8609f2e42a2c"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="140" width="330" height="110" uuid="2c642c25-7824-4e78-abf9-d742dd35fcd2"/>
+				<imageExpression><![CDATA["reportes//jasper//imagenes//firmas.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

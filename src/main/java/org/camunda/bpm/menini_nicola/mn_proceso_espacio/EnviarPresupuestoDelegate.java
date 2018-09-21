@@ -1,6 +1,9 @@
 package org.camunda.bpm.menini_nicola.mn_proceso_espacio;
 
 import java.awt.List;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +22,19 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.fachada.Fachada;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePresupuesto;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -100,13 +115,14 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 String cotizacion = (String) execution.getVariable("cotizacion");	 
 	 String moneda = (String) execution.getVariable("moneda"); // hay que probar
 	 String costo = (String) execution.getVariable("costo");
-	 String estado = "Aprobado";
+	 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
 	 String cronograma = (String) execution.getVariable("cronograma");	 
 	 String condicionesVenta = "bla bla bla";
 	 String descripcion = (String) execution.getVariable("descripcion");	 
 	 //to do: generar texto para las condiciones y agregarle la validez en dias obtenido
 	  //en el start-form.html
 	 
+	 // Persistencia de datos del presupuesto
 	 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	 Date date = new Date();
 	 
@@ -120,9 +136,53 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 presupuesto.setDescripcion(descripcion);
 	 fachada.insertarPresupuesto(presupuesto);
 	 
-			
+	 int idPresupuesto = fachada.obtenerIdPresupuesto(presupuesto.getCotizacion());
+	 int idCliente = fachada.obtenerIdCliente(voCliente.getNombre());
+	 
+	 VOClientePresupuesto clientePresupuesto = new VOClientePresupuesto();
+	 clientePresupuesto.setEstado(estado);
+	 clientePresupuesto.setIdCliente(idCliente);
+	 clientePresupuesto.setIdPresupuesto(idPresupuesto);
+	 
+	 fachada.insertarClientePresupuesto(clientePresupuesto);
+	 
+	VOEspacio espacio = new VOEspacio();
+	espacio.setCronograma(cronograma);
+	espacio.setValidez(30); // ver mejor despues
+	espacio.setIdPresupuesto(idPresupuesto);
+	
+	fachada.insertarEspacio(espacio);
+	
+	// Creación de presupuesto espacio
+	HashMap parametros = new HashMap<String, Object>();
+	parametros.put("cotizacion", cotizacion);
+	parametros.put("cliente", cliente);
+	parametros.put("email", email);
+	parametros.put("descripcion", descripcion);
+	parametros.put("moneda", moneda);
+	parametros.put("costo", costo);
+	parametros.put("condiciones", condicionesVenta);
+	
+	
+	String path = System.getProperty("user.dir");
+	LOGGER.info("Ruta donde estoy parado '" + path);
+	
+	
+	
+	FileInputStream fis;
+	try {
+		fis = new FileInputStream("reportes//jasper//presupuestoEspacio.jasper");
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
 		
-
+		//Load bufferedInputStream file.jasper 
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream); 
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,new JREmptyDataSource());
+		JasperExportManager.exportReportToPdfFile(jasperPrint,path + "presupuestoEspacio.pdf");
+		JasperViewer.viewReport(jasperPrint, false);
+	} catch (FileNotFoundException | JRException e) {
+		e.printStackTrace();
+	}
+	
 	}
 
 }

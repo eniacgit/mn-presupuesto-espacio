@@ -137,5 +137,58 @@ public class AccesoBD {
 		this.desconectarBD(con);
 	}
 	
+	public int obtenerIdPresupuesto(String cotizacion) {
+		// Retorna el id del presupuesto
+		// Precondicion: el presupuesto existe en la base de datos
+			int idCliente = 0;
+			Connection con = this.conectarBD();
+			Consultas consultas = new Consultas();
+			String select = consultas.obtenerIdPresupuesto();
+			try {
+				PreparedStatement pstmt = con.prepareStatement(select);
+				pstmt.setString(1, cotizacion);
+				ResultSet rs = pstmt.executeQuery();
+				rs.next();
+				idCliente = rs.getInt(1);
+				rs.close();
+				pstmt.close();			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.desconectarBD(con);
+			return idCliente;
+		}
+	
+	public void insertarClientePresupuesto(byte estado, int idCliente, int idPresupuesto) throws  SQLException, IOException {
+		// Ingresa un nuevo cliente-presupuesto al sistema
+		Connection con = this.conectarBD();
+		Consultas consultas = new Consultas();
+		String insert = consultas.insertarClientePresupuesto();
+		
+		PreparedStatement pstmt = con.prepareStatement(insert);		
+		pstmt.setByte(1, estado);
+		pstmt.setInt(2, idCliente);
+		pstmt.setInt(3, idPresupuesto);		
+		pstmt.executeUpdate();
+		pstmt.close();
+		this.desconectarBD(con);
+	}
+	
+	public void insertarEspacio(String cronograma, int validez, int idPresupuesto) throws  SQLException, IOException {
+		// Ingresa un nuevo cliente-presupuesto al sistema
+		Connection con = this.conectarBD();
+		Consultas consultas = new Consultas();
+		String insert = consultas.insertarEspacio();
+		
+		PreparedStatement pstmt = con.prepareStatement(insert);		
+		pstmt.setString(1, cronograma);
+		pstmt.setInt(2, validez);
+		pstmt.setInt(3, idPresupuesto);		
+		pstmt.executeUpdate();
+		pstmt.close();
+		this.desconectarBD(con);
+	}
+	
 	
 }
