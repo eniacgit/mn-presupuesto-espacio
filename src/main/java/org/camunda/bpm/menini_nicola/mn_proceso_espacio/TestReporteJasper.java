@@ -37,7 +37,7 @@ public class TestReporteJasper {
 			//Load bufferedInputStream file.jasper 
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream); 
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,new JREmptyDataSource());
-			JasperExportManager.exportReportToPdfFile(jasperPrint,"//home//danny//mngest//reportes//presupuestoEspacio.pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint,"reportes//pdfs//presupuestoEspacio.pdf");
 			JasperViewer.viewReport(jasperPrint, true);
 		} catch (FileNotFoundException | JRException e) {
 			e.printStackTrace();

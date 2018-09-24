@@ -7,7 +7,7 @@
 	<parameter name="email" class="java.lang.String"/>
 	<parameter name="descripcion" class="java.lang.String"/>
 	<parameter name="moneda" class="java.lang.String"/>
-	<parameter name="costo" class="java.lang.Float"/>
+	<parameter name="costo" class="java.lang.String"/>
 	<parameter name="condiciones" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>

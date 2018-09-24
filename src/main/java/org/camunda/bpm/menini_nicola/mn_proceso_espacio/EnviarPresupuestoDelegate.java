@@ -26,6 +26,8 @@ import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePr
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
 
+import com.lowagie.text.pdf.PdfWriter;
+
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -34,15 +36,23 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.view.JasperViewer;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class EnviarPresupuestoDelegate implements JavaDelegate {
 
@@ -50,9 +60,8 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 
 	//remitente por defecto: camunda.forever@gmail.com
 	private static String remitente ="camunda.forever"; 
-	
+	/*
 	private static void enviarConGmail(String destinatario, String asunto, String cuerpo) {
-
 		Properties props = System.getProperties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.user", "remitente");
@@ -75,13 +84,54 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 			transport.close();
 
 		} catch (AddressException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	*/
+	
+	private static void enviarConGmail(String destinatario, String asunto, String cuerpo, String rutaArchAdjunto, String nombreArchivoAdjunto) {
+		// Se obtiene el objeto Session. La configuración es para una cuenta de gmail
+		Properties props = System.getProperties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.user", "remitente");
+		props.put("mail.smtp.clave", "bolimar2018");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.port", "587");
 
+		Session session = Session.getDefaultInstance(props);
+		MimeMessage message = new MimeMessage(session);
+
+		try {			
+			message.setFrom(new InternetAddress(remitente));
+			message.addRecipients(Message.RecipientType.TO, destinatario);
+			message.setSubject(asunto);
+			//message.setText(cuerpo);
+			
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setText(cuerpo);
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			messageBodyPart = new MimeBodyPart();
+			DataSource source =new FileDataSource(rutaArchAdjunto+nombreArchivoAdjunto);
+			messageBodyPart.setDataHandler(new DataHandler(source));
+			//messageBodyPart.setFileName(rutaArchAdjunto);
+			messageBodyPart.setFileName(nombreArchivoAdjunto);
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", remitente, "bolimar2018");
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -90,11 +140,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 LOGGER.info("Solicitud de procesamiento por '" + execution.getVariable("customerId") + "'...");		
 			
 	 String destinatarioIn= (String)execution.getVariable("email");
-	 String destinatario = destinatarioIn;
-	 String asunto ="Correo de prueba enviado desde proceso en camunda mediante Java";
-	 String cuerpo = "Esta es una prueba de correo, y si lo estas viendo que es que quedó resuelto como mandar mails desde camunda...";
-	 enviarConGmail(destinatario, asunto, cuerpo);
-	 
+	 	 
 	 // Persistencia de datos del cliente
 	 String cliente = (String) execution.getVariable("cliente");
 	 String email = destinatarioIn;
@@ -165,7 +211,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	
 	
 	String path = System.getProperty("user.dir");
-	LOGGER.info("Ruta donde estoy parado '" + path);
+	LOGGER.info("RUTA DONDE ESTOY PARADO: " + path);
 	
 	
 	
@@ -177,8 +223,26 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		//Load bufferedInputStream file.jasper 
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream); 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,new JREmptyDataSource());
-		JasperExportManager.exportReportToPdfFile(jasperPrint,path + "presupuestoEspacio.pdf");
-		JasperViewer.viewReport(jasperPrint, false);
+		
+		Properties p = new Properties();
+		p.load(new FileInputStream("config/parametros.txt"));
+		String rutaArchivoAdjunto = p.getProperty("carpeta_reportes");
+		
+		
+		//String rutaArchivoAdjunto = "//home//danielo//";
+		String nombreArchivoAdjunto="Cotizacion_" + cotizacion + "_" + cliente +".pdf" ;
+		
+		//JasperExportManager.exportReportToPdfFile(jasperPrint,"//home//danielo//presupuestoEspacio.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,rutaArchivoAdjunto + nombreArchivoAdjunto);
+		//JasperViewer.viewReport(jasperPrint, false);
+		
+		String destinatario = destinatarioIn;
+		String asunto ="Correo de prueba enviado desde proceso en camunda mediante Java";
+		String cuerpo = "Esta es una prueba de correo, y si lo estas viendo que es que quedó resuelto como mandar mails desde camunda...";
+		enviarConGmail(destinatario, asunto, cuerpo,rutaArchivoAdjunto,nombreArchivoAdjunto);
+		
+		
+		
 	} catch (FileNotFoundException | JRException e) {
 		e.printStackTrace();
 	}

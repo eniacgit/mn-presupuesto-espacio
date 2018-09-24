@@ -1,5 +1,6 @@
 driver=com.mysql.cj.jdbc.Driver
 url=jdbc:mysql://localhost:3306/
 bdatos=camunda?autoReconnect=true&useSSL=false
+carpeta_reportes=//home//danielo//
 usuario=root
-password=armagedon
+password=root
