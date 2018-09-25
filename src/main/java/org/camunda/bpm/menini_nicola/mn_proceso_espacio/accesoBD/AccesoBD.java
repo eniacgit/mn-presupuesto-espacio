@@ -190,5 +190,31 @@ public class AccesoBD {
 		this.desconectarBD(con);
 	}
 	
+		
+	public boolean existeNroCotización(String nroCotizacion) {
+		// Retorna true si el nro de la cotizacion ya existe en la bd
+			boolean existeCliente = false;
+			Connection con = con = this.conectarBD();
+			Consultas consultas = new Consultas();
+			
+			String select = consultas.existeNroCotización();
+			try {
+				PreparedStatement pstmt = con.prepareStatement(select);
+				pstmt.setString(1, nroCotizacion);
+				
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next())
+					existeCliente = true;
+				rs.close();
+				pstmt.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			this.desconectarBD(con);
+			return existeCliente;
+		}
+	
 	
 }

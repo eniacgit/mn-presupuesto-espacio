@@ -36,4 +36,9 @@ public class Consultas {
 		return consulta;	
 	}
 	
+	public String existeNroCotización() {
+		String consulta ="select cotizacion from mn_presupuesto where cotizacion=?";
+		return consulta;
+	}
+	
 }

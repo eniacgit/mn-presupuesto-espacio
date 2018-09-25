@@ -2,6 +2,9 @@ package org.camunda.bpm.menini_nicola.mn_proceso_espacio.fachada;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.accesoBD.AccesoBD;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
@@ -63,6 +66,26 @@ public class Fachada {
 		
 		AccesoBD accesoBD = new AccesoBD();
 		accesoBD.insertarEspacio(cronograma, validez, idPresupuesto);		
+	}
+	
+	public String generarNroCotizaciónFechaActual() {
+		// A partir de la fecha actual genera un nro de cotizacion
+		// Si ya hay una cotizcion para el dia actual incremente el digito del indice
+		// Ejemplo: Si ya existe la cotizacion 180924-01,la siguiente sera 180924-02 
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+		Calendar cal = Calendar.getInstance();
+		
+		// Obtengo nro de cotizacion del dia actual
+		String fecha = dateFormat.format(cal.getTime());
+		String nroCotizacion = fecha  + "-01";
+		int cont=1;
+		AccesoBD accesoBD = new AccesoBD();
+		while (accesoBD.existeNroCotización(nroCotizacion)) {
+			cont++;
+			nroCotizacion = fecha + "-" + String.format("%02d",cont);
+		}		
+		return nroCotizacion;
 	}
 	
 }
