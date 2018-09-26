@@ -76,46 +76,36 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="152" splitType="Stretch">
+		<band height="185" splitType="Stretch">
 			<textField>
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="560" height="152" uuid="bcc634a4-2d0c-4b88-bb51-f0641c897c9c"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="560" height="185" uuid="bcc634a4-2d0c-4b88-bb51-f0641c897c9c"/>
 				<textElement textAlignment="Justified"/>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="110">
 			<staticText>
-				<reportElement x="0" y="10" width="560" height="20" uuid="89755529-3434-43eb-b2f7-1aff12299fc8"/>
+				<reportElement x="0" y="60" width="560" height="20" uuid="89755529-3434-43eb-b2f7-1aff12299fc8"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[COSTO del PROYECTO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="30" width="40" height="20" uuid="5ba9a629-3362-450d-9d95-bfe4d282a123"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="80" width="40" height="20" uuid="5ba9a629-3362-450d-9d95-bfe4d282a123"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{moneda}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="40" y="30" width="40" height="20" uuid="f059aa5b-5808-4711-a2af-98cb6b88b3a7"/>
-				<textElement textAlignment="Left"/>
+				<reportElement x="40" y="80" width="40" height="20" uuid="f059aa5b-5808-4711-a2af-98cb6b88b3a7"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{costo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="90" y="30" width="40" height="20" uuid="6f736d43-c4ed-4b66-9cde-a7f3e7f64f66"/>
+				<reportElement x="80" y="80" width="40" height="20" uuid="6f736d43-c4ed-4b66-9cde-a7f3e7f64f66"/>
 				<textElement textAlignment="Left"/>
 				<text><![CDATA[+ IVA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="60" width="100" height="20" uuid="181d9dcf-c2df-4f68-917a-fb9b4f07742e"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[CONDICIONES]]></text>
-			</staticText>
-			<textField>
-				<reportElement positionType="Float" x="0" y="80" width="560" height="30" uuid="3ab514bd-7d98-438b-81d0-88e65ea646ab"/>
-				<textFieldExpression><![CDATA[$P{condiciones}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
@@ -134,6 +124,17 @@
 				<reportElement x="0" y="140" width="330" height="110" uuid="2c642c25-7824-4e78-abf9-d742dd35fcd2"/>
 				<imageExpression><![CDATA["reportes//jasper//imagenes//firmas.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="0" y="70" width="100" height="20" uuid="181d9dcf-c2df-4f68-917a-fb9b4f07742e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="0" y="90" width="560" height="30" uuid="3ab514bd-7d98-438b-81d0-88e65ea646ab"/>
+				<textFieldExpression><![CDATA[$P{condiciones}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

@@ -60,37 +60,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 
 	//remitente por defecto: camunda.forever@gmail.com
 	private static String remitente ="camunda.forever"; 
-	/*
-	private static void enviarConGmail(String destinatario, String asunto, String cuerpo) {
-		Properties props = System.getProperties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.user", "remitente");
-		props.put("mail.smtp.clave", "bolimar2018");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getDefaultInstance(props);
-		MimeMessage message = new MimeMessage(session);
-
-		try {			
-			message.setFrom(new InternetAddress(remitente));
-			message.addRecipients(Message.RecipientType.TO, destinatario);
-			message.setSubject(asunto);
-			message.setText(cuerpo);
-			Transport transport = session.getTransport("smtp");
-			transport.connect("smtp.gmail.com", remitente, "bolimar2018");
-			transport.sendMessage(message, message.getAllRecipients());
-			transport.close();
-
-		} catch (AddressException e) {
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	}
-	*/
-	
+		
 	private static void enviarConGmail(String destinatario, String asunto, String cuerpo, String rutaArchAdjunto, String nombreArchivoAdjunto) {
 		// Se obtiene el objeto Session. La configuración es para una cuenta de gmail
 		Properties props = System.getProperties();
@@ -159,11 +129,18 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 }
 	 
 	 String cotizacion = (String) execution.getVariable("cotizacion");	 
-	 String moneda = (String) execution.getVariable("moneda"); // hay que probar
+	 String moneda = (String) execution.getVariable("moneda");
+	 
+	 if (moneda.equals("dolares"))
+		 moneda ="U$D";
+	 else
+		 moneda ="$";
+	 
 	 String costo = (String) execution.getVariable("costo");
 	 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
 	 String cronograma = (String) execution.getVariable("cronograma");	 
-	 String condicionesVenta = "bla bla bla";
+	 String condicionesVenta = (String) execution.getVariable("condiciones");
+	 
 	 String descripcion = (String) execution.getVariable("descripcion");	 
 	 //to do: generar texto para las condiciones y agregarle la validez en dias obtenido
 	  //en el start-form.html
@@ -227,11 +204,12 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		Properties p = new Properties();
 		p.load(new FileInputStream("config/parametros.txt"));
 		String rutaArchivoAdjunto = p.getProperty("carpeta_reportes");
-		
-		
+				
+		// Se crae el archivo pd con el nombre:
+		// Ejemplo: Cotizacion_ESPACIO_180926-01_Fernando_Pelaez.pdf
+		String nombreArchivoAdjunto="Cotizacion_ESPACIO_" + cotizacion + "_" + cliente.replace(' ' , '_') +".pdf" ;
+
 		//String rutaArchivoAdjunto = "//home//danielo//";
-		String nombreArchivoAdjunto="Cotizacion_" + cotizacion + "_" + cliente +".pdf" ;
-		
 		//JasperExportManager.exportReportToPdfFile(jasperPrint,"//home//danielo//presupuestoEspacio.pdf");
 		JasperExportManager.exportReportToPdfFile(jasperPrint,rutaArchivoAdjunto + nombreArchivoAdjunto);
 		//JasperViewer.viewReport(jasperPrint, false);

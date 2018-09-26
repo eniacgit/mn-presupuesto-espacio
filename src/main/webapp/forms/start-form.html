@@ -4,7 +4,7 @@
   Ingresar Formulario
 </p>
 
-<form class="form-horizontal">
+<form role="form" class="form-horizontal">
   <div class="control-group">
     <div class="controls">
               
@@ -12,7 +12,6 @@
       <input type="text" 
              cam-variable-name="cliente"
              cam-variable-type="String"
-             required
              maxlength=100
              class="form-control" />
     
@@ -20,7 +19,6 @@
       <input type="text" 
              cam-variable-name="email"
              cam-variable-type="String"
-             required
              maxlength=50
              class="form-control" />
              
@@ -28,58 +26,38 @@
       <input type="text" 
              cam-variable-name="tel"
              cam-variable-type="String"
-             required
              class="form-control" />
              
       <label for="celular" class="control-label">Celular</label>
       <input type="text" 
              cam-variable-name="celular"
              cam-variable-type="String"
-             required
              class="form-control" />
       
       <label for="descripcion" class="control-label">Proyecto Espacio</label>
-      <textarea
-      		 cam-variable-name="descripcion"
-          	 cam-variable-type="String"
-          	 required
-          	 maxlength=200
-          	 class="form-control">
-	  </textarea>
+      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4"/>
           
       <label for="moneda" class="control-label">Moneda</label>
-      <select 
-      		 cam-variable-name="foo"
-             cam-variable-type="String"
-             required
-             class="form-control">
-  			<option>$</option>
-  			<option>U$S</option>
+      <select cam-variable-name="moneda" cam-variable-type="String" class="form-control">
+  			<option value="pesos" checked>$</option>
+  			<option value="dolares">U$S</option>
 	  </select>
            
       <label for="costo" class="control-label">Costo</label>
       <input type="text" 
              cam-variable-name="costo"
              cam-variable-type="String"
-             required
              class="form-control" />
       
       <label for="validez" class="control-label">Validez (días)</label>
       <input type="text" 
              cam-variable-name="validez"
-             cam-variable-type="Integer"
-             required
+             cam-variable-type="String"             
              class="form-control" />
                  
 	  <label for="cronograma" class="control-label">Cronograma</label>
-      <textarea
-      		 cam-variable-name="cronograma"
-          	 cam-variable-type="String"
-          	 required
-          	 maxlength=200
-          	 class="form-control">
-	  </textarea>
-          
+      <textarea cam-variable-name="cronograma" cam-variable-type="String" class="form-control"/>
+	            
     </div>
   </div>
 

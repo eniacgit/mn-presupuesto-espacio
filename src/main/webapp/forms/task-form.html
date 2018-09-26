@@ -4,7 +4,20 @@
   Aprobar Presupuesto
 </p>
 
-<form class="form-horizontal">
+<form role="form" class="form-horizontal">
+
+ <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+ 	camForm.on('form-loaded',function() {
+		camForm.variableManager.fetchVariable('moneda');
+	});
+
+	//camForm.on('variables-restaured',function() {
+	camForm.on('variables-restored',function() {
+		$scope.moneda=camForm.variableManager.variableValue('moneda');
+	});
+  </script>
+
   <div class="control-group">
     <div class="controls">
     
@@ -12,79 +25,53 @@
       <input type="text" 
              cam-variable-name="cotizacion"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
     
      <label for="cliente" class="control-label">Cliente</label>
       <input type="text" 
              cam-variable-name="cliente"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
     
       <label for="email" class="control-label">E-mail</label>
       <input type="text" 
              cam-variable-name="email"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
              
       <label for="tel" class="control-label">Tel</label>
       <input type="text" 
              cam-variable-name="tel"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
              
        <label for="celular" class="control-label">Celular</label>
        <input type="text" 
              cam-variable-name="celular"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
       
-      <label for="descripcion" class="control-label">Proyecto Espacio</label>
-      <textarea
-      		 cam-variable-name="descripcion"
-          	 cam-variable-type="String"
-          	 required
-          	 readonly
-          	 class="form-control">
-	  </textarea>
-          
-      <label for="moneda" class="control-label">Moneda</label>
-      <select 
-      		 cam-variable-name="moneda"
-             cam-variable-type="String"
-             required
-             readonly
-             class="form-control">
-  			<option>$</option>
-  			<option>U$S</option>
-	  </select>
-           
+     <label for="descripcion" class="control-label">Proyecto Espacio</label>
+      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4"/>
+	  
+      <label class="control-label">Moneda</label>
+      <address>		      
+		      <span ng-if="moneda == 'pesos'">$</span>
+			  <span ng-if="moneda == 'dolares'">U$S</span>
+	  </address>
+	  	             
       <label for="costo" class="control-label">Costo</label>
       <input type="text" 
              cam-variable-name="costo"
              cam-variable-type="String"
-             required
-             readonly
              class="form-control" />
       
       <label for="condiciones" class="control-label">Condiciones</label>
-      <textarea
-      		 cam-variable-name="condiciones"
-          	 cam-variable-type="String"
-          	 required
-          	 readonly
-          	 class="form-control">
-	  </textarea>
-               
+      <textarea cam-variable-name="condiciones" cam-variable-type="String" class="form-control"/>
+      
+      <label for="cronograma" class="control-label">Cronograma</label>
+      <textarea cam-variable-name="cronograma" cam-variable-type="String" class="form-control"/>
+	                
       <br>
       <label for="aprobar">Aprobar ?</label>
       <input type="checkbox"
@@ -95,8 +82,6 @@
   	</div>
   </div>
   
-  <script cam-script type="text/form-script">
-  // custom JavaScript goes here
-  </script>
+ 
 
 </form>
