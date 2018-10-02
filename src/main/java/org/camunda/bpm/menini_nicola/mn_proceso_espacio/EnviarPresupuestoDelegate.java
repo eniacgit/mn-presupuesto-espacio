@@ -2,8 +2,14 @@ package org.camunda.bpm.menini_nicola.mn_proceso_espacio;
 
 import java.awt.List;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +28,10 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.fachada.Fachada;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOArchivoAdjunto;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePresupuesto;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEmail;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
 
@@ -58,51 +67,6 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 
 	private final static Logger LOGGER = Logger.getLogger("ENVIAR-PRESUPUESTO");
 
-	//remitente por defecto: camunda.forever@gmail.com
-	private static String remitente ="camunda.forever"; 
-		
-	private static void enviarConGmail(String destinatario, String asunto, String cuerpo, String rutaArchAdjunto, String nombreArchivoAdjunto) {
-		// Se obtiene el objeto Session. La configuración es para una cuenta de gmail
-		Properties props = System.getProperties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.user", "remitente");
-		props.put("mail.smtp.clave", "bolimar2018");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getDefaultInstance(props);
-		MimeMessage message = new MimeMessage(session);
-
-		try {			
-			message.setFrom(new InternetAddress(remitente));
-			message.addRecipients(Message.RecipientType.TO, destinatario);
-			message.setSubject(asunto);
-			//message.setText(cuerpo);
-			
-			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setText(cuerpo);
-			Multipart multipart = new MimeMultipart();
-			multipart.addBodyPart(messageBodyPart);
-			messageBodyPart = new MimeBodyPart();
-			DataSource source =new FileDataSource(rutaArchAdjunto+nombreArchivoAdjunto);
-			messageBodyPart.setDataHandler(new DataHandler(source));
-			//messageBodyPart.setFileName(rutaArchAdjunto);
-			messageBodyPart.setFileName(nombreArchivoAdjunto);
-			multipart.addBodyPart(messageBodyPart);
-			message.setContent(multipart);
-
-			Transport transport = session.getTransport("smtp");
-			transport.connect("smtp.gmail.com", remitente, "bolimar2018");
-			transport.sendMessage(message, message.getAllRecipients());
-			transport.close();
-
-		} catch (AddressException e) {
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -132,9 +96,9 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 String moneda = (String) execution.getVariable("moneda");
 	 
 	 if (moneda.equals("dolares"))
-		 moneda ="U$D";
+		 moneda ="USD";
 	 else
-		 moneda ="$";
+		 moneda ="$U";
 	 
 	 String costo = (String) execution.getVariable("costo");
 	 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
@@ -214,10 +178,49 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		JasperExportManager.exportReportToPdfFile(jasperPrint,rutaArchivoAdjunto + nombreArchivoAdjunto);
 		//JasperViewer.viewReport(jasperPrint, false);
 		
-		String destinatario = destinatarioIn;
-		String asunto ="Correo de prueba enviado desde proceso en camunda mediante Java";
-		String cuerpo = "Esta es una prueba de correo, y si lo estas viendo que es que quedó resuelto como mandar mails desde camunda...";
-		enviarConGmail(destinatario, asunto, cuerpo,rutaArchivoAdjunto,nombreArchivoAdjunto);
+		String destinatario = destinatarioIn;		
+		String nombreCronograma = "Cronograma_" + cliente.replace(' ' , '_') + ".pdf";
+		
+		/* En Camunda los archivos se almacenan como una variable de instancia de proceso del tipo Bytes.
+		 * Para almacenar ese archivo, primero hay que tranformar dicha instancia con el siguiente código:		 
+		 */		
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		InputStream cronogramaAdjunto = (ByteArrayInputStream)execution.getVariable("INVOICE_DOCUMENT");
+		File newFile = new File(rutaArchivoAdjunto + nombreCronograma);
+		FileOutputStream fos = new FileOutputStream(newFile);
+		int data;
+		while ((data=cronogramaAdjunto.read())!=-1){
+			char ch = (char)data;
+			fos.write(ch);			
+		}
+		fos.flush();
+		fos.close();		
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		// REPORTE PDF
+		VOArchivoAdjunto arch1 = new VOArchivoAdjunto();
+		arch1.setRutaArchivoAdjunto(rutaArchivoAdjunto);
+		arch1.setNombreArchivoAdjunto(nombreArchivoAdjunto);
+		
+		// CRONOGRAMA PDF
+		VOArchivoAdjunto arch2 = new VOArchivoAdjunto();
+		arch2.setRutaArchivoAdjunto(rutaArchivoAdjunto);
+		arch2.setNombreArchivoAdjunto(nombreCronograma);
+		
+		// ArrayList de archivos adjuntos (reporte pdf, cronograma pdf)
+		ArrayList<VOArchivoAdjunto> lstArchivosAdjuntos = new ArrayList<VOArchivoAdjunto>();
+		lstArchivosAdjuntos.add(arch1);
+		lstArchivosAdjuntos.add(arch2);
+		
+		VOEmail voEmail = new VOEmail();
+		voEmail.setDestinatario(destinatario);
+		voEmail.setAsunto("Correo de prueba enviado desde proceso en camunda mediante Java");
+		voEmail.setCuerpo("Esta es una prueba de correo, y si lo estas viendo que es que quedó resuelto como mandar mails desde camunda...");
+		voEmail.setLstArchivosAdjuntos(lstArchivosAdjuntos);
+		
+		Fachada f = new Fachada();
+		f.enviarConGmail(voEmail);
+		//enviarConGmail(destinatario, asunto, cuerpo,rutaArchivoAdjunto,nombreArchivoAdjunto, "//home//danielo//","libro.pdf");
 		
 		
 		

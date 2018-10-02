@@ -41,4 +41,14 @@ public class Consultas {
 		return consulta;
 	}
 	
+	public String obtenerRemitente() {
+		String consulta ="select email from mn_email where id=?;";
+		return consulta;
+	}
+	
+	public String obtenerPasswordRemitente() {
+		String consulta ="select password from mn_email where id=?;";
+		return consulta;
+	}
+	
 }

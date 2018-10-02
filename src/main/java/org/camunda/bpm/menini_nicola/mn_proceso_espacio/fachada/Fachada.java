@@ -4,11 +4,28 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.accesoBD.AccesoBD;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOArchivoAdjunto;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePresupuesto;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEmail;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
 
@@ -87,5 +104,64 @@ public class Fachada {
 		}		
 		return nroCotizacion;
 	}
+	
+	private static void addAtachment(Multipart multipart, String rutaArcvhivo, String nombreArchivo) throws MessagingException {
+		DataSource source = new FileDataSource(rutaArcvhivo+nombreArchivo);
+		BodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setDataHandler(new DataHandler(source));
+		messageBodyPart.setFileName(nombreArchivo);
+		multipart.addBodyPart(messageBodyPart);
+	}
+	
+	public void enviarConGmail (VOEmail voEmail) throws MessagingException {
+	// Envia un correo electronico con archivos adjuntos (ArrayList) utilizando el email y contrasenia
+	// almacenados en la tabla mn_email
+		//String remitente = voEmail.getRemitente(); // este campo viene vacio
+		String destinatario = voEmail.getDestinatario();
+		String asunto = voEmail.getAsunto();
+		String cuerpo = voEmail.getCuerpo();
+		ArrayList<VOArchivoAdjunto> lstArchivosAdjuntos = voEmail.getLstArchivosAdjuntos();
+		
+		AccesoBD accesoBD = new AccesoBD();
+		String email = accesoBD.obtenerRemitente();
+		String [] arrayEmail = email.split("@");
+		String remitente = arrayEmail[0];
+		String clave = accesoBD.obtenerPasswordRemitente();
+		
+		
+		// Se obtiene el objeto Session. La configuración es para una cuenta de gmail
+		Properties props = new Properties();		
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.user", "remitente");
+		props.put("mail.smtp.clave", clave);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.port", "587");
+		
+		Session session = Session.getDefaultInstance(props);
+		MimeMessage message = new MimeMessage(session);
+		message.addRecipients(Message.RecipientType.TO, destinatario);
+		message.setSubject(asunto);
+		
+		BodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setText(cuerpo);
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+		messageBodyPart = new MimeBodyPart();
+		
+		// obtengo archivos adjuntos de la lista
+		for (int i=0; i<lstArchivosAdjuntos.size();i++) {
+			String rutaArchivo = lstArchivosAdjuntos.get(i).getRutaArchivoAdjunto();
+			String nombreArchivo = lstArchivosAdjuntos.get(i).getNombreArchivoAdjunto();
+			addAtachment(multipart, rutaArchivo, nombreArchivo);
+		}
+		message.setContent(multipart);
+		
+		Transport transport = session.getTransport("smtp");
+		transport.connect("smtp.gmail.com", remitente, clave);
+		transport.sendMessage(message, message.getAllRecipients());
+		transport.close();		
+	}
+	
 	
 }

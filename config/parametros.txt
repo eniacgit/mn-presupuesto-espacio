@@ -1,6 +1,13 @@
+# En este archvivo se configuran todos los paramentros necesarios 
+# para el correcto funcionamiento del sistema.
+
+# BASE DE DATOS
 driver=com.mysql.cj.jdbc.Driver
 url=jdbc:mysql://localhost:3306/
 bdatos=camunda?autoReconnect=true&useSSL=false
-carpeta_reportes=//home//danielo//
 usuario=root
 password=root
+
+# CARPETA PARA ALMACENAR REPORTES PDF
+carpeta_reportes=//home//danielo//
+

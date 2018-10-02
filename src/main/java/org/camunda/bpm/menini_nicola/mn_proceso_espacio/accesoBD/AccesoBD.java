@@ -215,7 +215,52 @@ public class AccesoBD {
 			this.desconectarBD(con);
 			return existeCliente;
 		}
+		
+	public String obtenerRemitente() {
+		// Retorna el mail con el que se enviarán los presupuestos 
+		// Precondicion: en la tabla mn_email solo existe una tupla con id=1
+			int id = 1;
+			String remitente="";
+			Connection con = this.conectarBD();
+			Consultas consultas = new Consultas();
+			String select = consultas.obtenerRemitente();
+			try {
+				PreparedStatement pstmt = con.prepareStatement(select);
+				pstmt.setInt(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				rs.next();
+				remitente = rs.getString(1);
+				rs.close();
+				pstmt.close();			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.desconectarBD(con);
+			return remitente;
+		}
 	
-	
-	
+	public String obtenerPasswordRemitente() {
+		// Retorna el password del remitente con el que se enviarán los presupuestos 
+		// Precondicion: en la tabla mn_email solo existe una tupla con id=1
+		int id = 1;
+		String password="";
+		Connection con = this.conectarBD();
+		Consultas consultas = new Consultas();
+		String select = consultas.obtenerPasswordRemitente();
+		try {
+			PreparedStatement pstmt = con.prepareStatement(select);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			password = rs.getString(1);
+			rs.close();
+			pstmt.close();			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.desconectarBD(con);
+		return password;
+	}
 }

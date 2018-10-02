@@ -56,8 +56,8 @@
 	  
       <label class="control-label">Moneda</label>
       <address>		      
-		      <span ng-if="moneda == 'pesos'">$</span>
-			  <span ng-if="moneda == 'dolares'">U$S</span>
+		      <span ng-if="moneda == 'pesos'">$U</span>
+			  <span ng-if="moneda == 'dolares'">USD</span>
 	  </address>
 	  	             
       <label for="costo" class="control-label">Costo</label>
@@ -69,11 +69,11 @@
       <label for="condiciones" class="control-label">Condiciones</label>
       <textarea cam-variable-name="condiciones" cam-variable-type="String" class="form-control"/>
       
-      <label for="cronograma" class="control-label">Cronograma</label>
-      <textarea cam-variable-name="cronograma" cam-variable-type="String" class="form-control"/>
+      <label for="cronograma" class="control-label">Cronograma adjunto</label><br>
+      <a cam-file-download="INVOICE_DOCUMENT"></a>      
 	                
-      <br>
-      <label for="aprobar">Aprobar ?</label>
+      <br><br>
+      <label for="aprobar">Aprobar presupuesto</label>
       <input type="checkbox"
              cam-variable-name="aprobar"
              cam-variable-type="Boolean"
