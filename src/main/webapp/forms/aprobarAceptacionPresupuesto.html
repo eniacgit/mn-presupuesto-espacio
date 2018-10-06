@@ -1,0 +1,87 @@
+<strong>Proceso Espacio</strong>
+
+<p>
+  Aprobar Aceptacion de Presupuesto
+</p>
+
+<form role="form" class="form-horizontal">
+
+ <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+ 	camForm.on('form-loaded',function() {
+		camForm.variableManager.fetchVariable('moneda');
+	});
+
+	//camForm.on('variables-restaured',function() {
+	camForm.on('variables-restored',function() {
+		$scope.moneda=camForm.variableManager.variableValue('moneda');
+	});
+  </script>
+
+  <div class="control-group">
+    <div class="controls">
+    
+      <label for="cotizacion" class="control-label">Cotización</label>
+      <input type="text" 
+             cam-variable-name="cotizacion"
+             cam-variable-type="String"
+             class="form-control" />
+    
+     <label for="cliente" class="control-label">Cliente</label>
+      <input type="text" 
+             cam-variable-name="cliente"
+             cam-variable-type="String"
+             class="form-control" />
+    
+      <label for="email" class="control-label">E-mail</label>
+      <input type="text" 
+             cam-variable-name="email"
+             cam-variable-type="String"
+             class="form-control" />
+             
+      <label for="tel" class="control-label">Tel</label>
+      <input type="text" 
+             cam-variable-name="tel"
+             cam-variable-type="String"
+             class="form-control" />
+             
+       <label for="celular" class="control-label">Celular</label>
+       <input type="text" 
+             cam-variable-name="celular"
+             cam-variable-type="String"
+             class="form-control" />
+      
+     <label for="descripcion" class="control-label">Proyecto Espacio</label>
+      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4"/>
+	  
+      <label class="control-label">Moneda</label>
+      <address>		      
+		      <span ng-if="moneda == 'pesos'">$U</span>
+			  <span ng-if="moneda == 'dolares'">USD</span>
+	  </address>
+	  	             
+      <label for="costo" class="control-label">Costo</label>
+      <input type="text" 
+             cam-variable-name="costo"
+             cam-variable-type="String"
+             class="form-control" />
+      
+      <label for="condiciones" class="control-label">Condiciones</label>
+      <textarea cam-variable-name="condiciones" cam-variable-type="String" class="form-control"/>
+      
+      <label for="cronograma" class="control-label">Cronograma adjunto</label><br>
+      <a cam-file-download="INVOICE_DOCUMENT"></a>      
+	                
+      <br><br>
+      <label for="aprobar">Aprobar aceptacion de presupuesto</label>
+      <input type="checkbox"
+             cam-variable-name="aceptar"
+             cam-variable-type="Boolean"
+             name="aceptar"
+             class="form-control" />
+  	</div>
+  </div>
+  
+ 
+
+</form>

@@ -70,76 +70,24 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-	 // TODO Auto-generated method stub
 	 LOGGER.info("Solicitud de procesamiento por '" + execution.getVariable("customerId") + "'...");		
-			
-	 String destinatarioIn= (String)execution.getVariable("email");
-	 	 
-	 // Persistencia de datos del cliente
+	
+	 
+	 String cotizacion = (String) execution.getVariable("cotizacion");
 	 String cliente = (String) execution.getVariable("cliente");
+	 String destinatarioIn= (String)execution.getVariable("email");
 	 String email = destinatarioIn;
-	 String tel = (String) execution.getVariable("tel");
-	 String celular = (String) execution.getVariable("celular");
-	 
-	 VOCliente voCliente = new VOCliente();
-	 voCliente.setNombre(cliente);
-	 voCliente.setEmail(email);
-	 voCliente.setTelefono(tel);
-	 voCliente.setCelular(celular);
-	 
-	 Fachada fachada = new Fachada();
-	 if (!fachada.existeCliente(cliente)) {
-		 fachada.insertarCliente(voCliente);
-	 }
-	 
-	 String cotizacion = (String) execution.getVariable("cotizacion");	 
+	 String descripcion = (String) execution.getVariable("descripcion");
 	 String moneda = (String) execution.getVariable("moneda");
 	 
 	 if (moneda.equals("dolares"))
 		 moneda ="USD";
 	 else
 		 moneda ="$U";
-	 
 	 String costo = (String) execution.getVariable("costo");
-	 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
-	 String cronograma = (String) execution.getVariable("cronograma");	 
 	 String condicionesVenta = (String) execution.getVariable("condiciones");
 	 
-	 String descripcion = (String) execution.getVariable("descripcion");	 
-	 //to do: generar texto para las condiciones y agregarle la validez en dias obtenido
-	  //en el start-form.html
 	 
-	 // Persistencia de datos del presupuesto
-	 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	 Date date = new Date();
-	 
-	 VOPresupuesto presupuesto = new VOPresupuesto();
-	 presupuesto.setCotizacion(cotizacion); 
-	 
-	 String fecha =dateFormat.format(date);	 
-	 presupuesto.setFecha(fecha);
-	 presupuesto.setMoneda(moneda);
-	 presupuesto.setCondicionesVenta(condicionesVenta);
-	 presupuesto.setDescripcion(descripcion);
-	 fachada.insertarPresupuesto(presupuesto);
-	 
-	 int idPresupuesto = fachada.obtenerIdPresupuesto(presupuesto.getCotizacion());
-	 int idCliente = fachada.obtenerIdCliente(voCliente.getNombre());
-	 
-	 VOClientePresupuesto clientePresupuesto = new VOClientePresupuesto();
-	 clientePresupuesto.setEstado(estado);
-	 clientePresupuesto.setIdCliente(idCliente);
-	 clientePresupuesto.setIdPresupuesto(idPresupuesto);
-	 
-	 fachada.insertarClientePresupuesto(clientePresupuesto);
-	 
-	VOEspacio espacio = new VOEspacio();
-	espacio.setCronograma(cronograma);
-	espacio.setValidez(30); // ver mejor despues
-	espacio.setIdPresupuesto(idPresupuesto);
-	
-	fachada.insertarEspacio(espacio);
-	
 	// Creación de presupuesto espacio
 	HashMap parametros = new HashMap<String, Object>();
 	parametros.put("cotizacion", cotizacion);
@@ -152,9 +100,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	
 	
 	String path = System.getProperty("user.dir");
-	LOGGER.info("RUTA DONDE ESTOY PARADO: " + path);
-	
-	
+	LOGGER.info("RUTA DONDE ESTOY PARADO: " + path);	
 	
 	FileInputStream fis;
 	try {
