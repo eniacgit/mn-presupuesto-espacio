@@ -7,6 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -164,4 +168,29 @@ public class Fachada {
 	}
 	
 	
+	// no sirve :(
+	public void enviarConGmailProgramado (VOEmail voEmail, long delay) {
+		TimerTask task = new TimerTask() {
+
+			@Override
+			public void run() {
+				try {
+					enviarConGmail(voEmail);
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}			
+		};
+		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+		long period = delay;
+		executor.scheduleAtFixedRate(task, delay, period, TimeUnit.MILLISECONDS);
+		try {
+			Thread.sleep(period);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		executor.shutdown();
+	}
 }

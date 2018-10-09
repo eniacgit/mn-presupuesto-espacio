@@ -169,7 +169,15 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		//enviarConGmail(destinatario, asunto, cuerpo,rutaArchivoAdjunto,nombreArchivoAdjunto, "//home//danielo//","libro.pdf");
 		
 		
-		
+		// se envia mail recordatorio a los 3 dias -- NO FUNCIONÓ :(
+	/*	VOEmail voEmail2 = new VOEmail();
+		voEmail2.setAsunto("Email recordatorio");
+		voEmail2.setDestinatario("deleon.danielo@gmail.com");
+		voEmail2.setRemitente("deleon.danielo@gmail.com");
+		voEmail2.setCuerpo("Este email se envía como aviso de que hace 3 dias que el cliente no ha dado respuesta");
+		long delay = 10000L;
+		f.enviarConGmailProgramado(voEmail2, delay);
+		*/
 	} catch (FileNotFoundException | JRException e) {
 		e.printStackTrace();
 	}
