@@ -8,7 +8,7 @@
   <div class="control-group">
     <div class="controls">
               
-     <label for="cliente" class="control-label">Cliente</label>
+     <label for="cliente" class="control-label">Cliente *</label>
       <input type="text" 
              cam-variable-name="cliente"
              cam-variable-type="String"
@@ -16,7 +16,7 @@
              required
              class="form-control" />
     
-      <label for="email" class="control-label">E-mail</label>
+      <label for="email" class="control-label">E-mail *</label>
       <input type="text" 
              cam-variable-name="email"
              cam-variable-type="String"
@@ -30,16 +30,16 @@
       <input type="text" 
              cam-variable-name="tel"
              cam-variable-type="String"
-             ng-pattern="/^\d{9}$/"
+             ng-pattern="/^\d{8}$/"
              ng-model="tel"
              class="form-control" />
              
-      <label for="celular" class="control-label">Celular</label>
+      <label for="celular" class="control-label">Celular *</label>
       <input type="text" 
              cam-variable-name="celular"
              cam-variable-type="String"
              required
-             ng-pattern="/^0[\d]{7}$/"
+             ng-pattern="/^0[\d]{8}$/"
              ng-model="celular" 
              class="form-control" />
       
@@ -52,7 +52,7 @@
   			<option value="dolares">U$S</option>
 	  </select>
            
-      <label for="costo" class="control-label">Costo</label>
+      <label for="costo" class="control-label">Costo *</label>
       <input type="text" 
              cam-variable-name="costo"
              cam-variable-type="String"
@@ -65,18 +65,15 @@
       <input type="text" 
              cam-variable-name="validez"
              cam-variable-type="String"
-             required             
              ng-pattern="/^[0-9]/"
-             ng-model="validez"
+             ng-model="validez"             
              class="form-control" />
 
-	  <label for="validez" class="control-label">Adjuntar cronograma</label>	
+	  <label for="cronograma" class="control-label">Adjuntar cronograma</label>	
 	  <input type="file"
 	      cam-variable-name="INVOICE_DOCUMENT"
 	      cam-variable-type="File"
-	      cam-max-filesize="10000000" />                 
-	  
-	            
+	      cam-max-filesize="10000000" />                 	  	            
     </div>
   </div>
 

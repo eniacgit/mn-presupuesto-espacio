@@ -25,15 +25,16 @@
       <input type="text" 
              cam-variable-name="cotizacion"
              cam-variable-type="String"
+             readonly
              class="form-control" />
     
-     <label for="cliente" class="control-label">Cliente</label>
+     <label for="cliente" class="control-label">Cliente *</label>
       <input type="text" 
              cam-variable-name="cliente"
              cam-variable-type="String"
              class="form-control" />
     
-      <label for="email" class="control-label">E-mail</label>
+      <label for="email" class="control-label">E-mail *</label>
       <input type="text" 
              cam-variable-name="email"
              cam-variable-type="String"
@@ -45,7 +46,7 @@
              cam-variable-type="String"
              class="form-control" />
              
-       <label for="celular" class="control-label">Celular</label>
+       <label for="celular" class="control-label">Celular *</label>
        <input type="text" 
              cam-variable-name="celular"
              cam-variable-type="String"
@@ -70,8 +71,8 @@
       <textarea cam-variable-name="condiciones" cam-variable-type="String" class="form-control"/>
       
       <label for="cronograma" class="control-label">Cronograma adjunto</label><br>
-      <a cam-file-download="INVOICE_DOCUMENT"></a>      
-	                
+      <a cam-file-download="INVOICE_DOCUMENT"></a>   
+                	                
       <br><br>
       <label for="aprobar">Aprobar presupuesto</label>
       <input type="checkbox"
