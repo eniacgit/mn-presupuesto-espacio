@@ -13,7 +13,7 @@ import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePr
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupuesto;
 
-public class PersistirPresupuestoDelegate implements JavaDelegate{
+public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 	
 	private final static Logger LOGGER = Logger.getLogger("PERSISTIR-PRESUPUESTO");
 
@@ -48,7 +48,7 @@ public class PersistirPresupuestoDelegate implements JavaDelegate{
 			 moneda ="$U";
 		 
 		 String costo = (String) execution.getVariable("costo");
-		 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
+		 byte estado = 0; // Estados: 0 (no aprobado, 1 aprobado)
 		 String cronograma = (String) execution.getVariable("cronograma");	 
 		 String condicionesVenta = (String) execution.getVariable("condiciones");
 		 
