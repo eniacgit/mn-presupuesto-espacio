@@ -125,7 +125,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		//JasperViewer.viewReport(jasperPrint, false);
 		
 		String destinatario = destinatarioIn;		
-		String nombreCronograma = "Cronograma_" + cliente.replace(' ' , '_') + ".pdf";
+		String nombreCronograma = "Cronograma_" + cotizacion + "_" + cliente.replace(' ' , '_') + ".pdf";
 		
 		/* En Camunda los archivos se almacenan como una variable de instancia de proceso del tipo Bytes.
 		 * Para almacenar ese archivo, primero hay que tranformar dicha instancia con el siguiente código:		 
