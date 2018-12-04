@@ -124,8 +124,17 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		JasperExportManager.exportReportToPdfFile(jasperPrint,rutaArchivoAdjunto + nombreArchivoAdjunto);
 		//JasperViewer.viewReport(jasperPrint, false);
 		
+				
 		String destinatario = destinatarioIn;		
 		String nombreCronograma = "Cronograma_" + cotizacion + "_" + cliente.replace(' ' , '_') + ".pdf";
+		
+		
+		// guardo ruta y nombre del reporte por si lo tengo que mover si no es aprobado
+		execution.setVariable("rutaReportePDF",rutaArchivoAdjunto);	
+		execution.setVariable("nombreReportePDF",nombreArchivoAdjunto);
+		execution.setVariable("nombreCronogramaPDF",nombreCronograma);
+		
+		
 		
 		/* En Camunda los archivos se almacenan como una variable de instancia de proceso del tipo Bytes.
 		 * Para almacenar ese archivo, primero hay que tranformar dicha instancia con el siguiente código:		 

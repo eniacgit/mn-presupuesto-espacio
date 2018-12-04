@@ -1,5 +1,10 @@
 package org.camunda.bpm.menini_nicola.mn_proceso_espacio;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +20,22 @@ import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOPresupues
 
 public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 	
-	private final static Logger LOGGER = Logger.getLogger("PERSISTIR-PRESUPUESTO");
+	private final static Logger LOGGER = Logger.getLogger("PERSISTIR-PRESUPUESTO-RECHAZADO");
+	
+	private static void moverArchivo(String origen, String destino) {
+		Path origenPath = FileSystems.getDefault().getPath(origen);
+		Path destinoPath = FileSystems.getDefault().getPath(destino);
+		
+		try {
+			Files.move(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -87,7 +107,15 @@ public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 		
 		fachada.insertarEspacio(espacio);
 		
+		// muevo reportePDF y cronograma a carpeta RECHAZADOS		
+		String rutaArchivos = (String)execution.getVariable("rutaReportePDF");
+		String nombreReportePDF = (String)execution.getVariable("nombreReportePDF");
+		String nombreCronogramaPDF = (String)execution.getVariable("nombreCronogramaPDF");
 		
+		moverArchivo(rutaArchivos + nombreReportePDF, rutaArchivos+"/RECHAZADOS/" + nombreReportePDF);
+		moverArchivo(rutaArchivos + nombreCronogramaPDF, rutaArchivos+"/RECHAZADOS/" + nombreCronogramaPDF);
+		
+			
 	}
 
 }
