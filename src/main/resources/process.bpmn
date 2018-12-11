@@ -24,13 +24,13 @@
       <bpmn:outgoing>SequenceFlow_1ppgze7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1ox6thd" name="Si" sourceRef="ExclusiveGateway_0dvkzd6" targetRef="Task_097teo4">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{aprobar}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not reprobar}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_1fvk9r7" name="Presupuesto no aceptado">
       <bpmn:incoming>SequenceFlow_1ppgze7</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1ppgze7" name="No" sourceRef="ExclusiveGateway_0dvkzd6" targetRef="EndEvent_1fvk9r7">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not aprobar}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{reprobar}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_05g968w" sourceRef="Task_1mlaju7" targetRef="Task_0mp1w3l" />
     <bpmn:serviceTask id="Task_1mlaju7" name="Autogenerar cotizacion" camunda:class="org.camunda.bpm.menini_nicola.mn_proceso_espacio.AutogenerarPresupuestoDelegate">
@@ -48,7 +48,7 @@
       <bpmn:outgoing>SequenceFlow_12nzkl5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1z0y1mi" name="Si" sourceRef="ExclusiveGateway_0pai5sy" targetRef="Task_19io27j">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{aceptar}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not rechazar}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_10prirj" sourceRef="Task_19io27j" targetRef="EndEventProcessEnded" />
     <bpmn:serviceTask id="Task_19io27j" name="Persistir presupuesto aprobado" camunda:class="org.camunda.bpm.menini_nicola.mn_proceso_espacio.PersistirPresupuestoAprobadoDelegate">
@@ -59,7 +59,7 @@
       <bpmn:incoming>SequenceFlow_13tq5yi</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_12nzkl5" name="No" sourceRef="ExclusiveGateway_0pai5sy" targetRef="Task_1qykpkx">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not aceptar}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{rechazar}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_13tq5yi" sourceRef="Task_1qykpkx" targetRef="EndEvent_1tz2tpb" />
     <bpmn:serviceTask id="Task_1qykpkx" name="Persistir presupuesto rechazado" camunda:class="org.camunda.bpm.menini_nicola.mn_proceso_espacio.PersistirPresupuestoRechazadoDelegate">
@@ -82,6 +82,14 @@
       <bpmn:text>El presupuesto queda a la espera de que el cliente lo acepte o no</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_071jgk1" sourceRef="Task_14hjxvp" targetRef="TextAnnotation_1bve5jy" />
+    <bpmn:textAnnotation id="TextAnnotation_1ymzb4r">
+      <bpmn:text>Reporte y cronograma se guardan en la carpeta REPORTES</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_11k1xqk" sourceRef="Task_19io27j" targetRef="TextAnnotation_1ymzb4r" />
+    <bpmn:textAnnotation id="TextAnnotation_15u323z">
+      <bpmn:text>Reporte y cronograma se guardan en la carpeta REPORTES/RECHAZADOS</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0hcj89z" sourceRef="Task_1qykpkx" targetRef="TextAnnotation_15u323z" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mn-proceso-espacio">
@@ -220,18 +228,18 @@
         <di:waypoint x="400" y="54" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1vzfyrh_di" bpmnElement="TextAnnotation_1vzfyrh">
-        <dc:Bounds x="556" y="215" width="100" height="82" />
+        <dc:Bounds x="488" y="234" width="100" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0y1y2f2_di" bpmnElement="Association_0y1y2f2">
-        <di:waypoint x="587" y="160" />
-        <di:waypoint x="598" y="215" />
+        <di:waypoint x="568" y="160" />
+        <di:waypoint x="549" y="234" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1bve5jy_di" bpmnElement="TextAnnotation_1bve5jy">
-        <dc:Bounds x="705" y="215" width="100" height="82" />
+        <dc:Bounds x="617" y="234" width="100" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_071jgk1_di" bpmnElement="Association_071jgk1">
-        <di:waypoint x="747" y="160" />
-        <di:waypoint x="752" y="215" />
+        <di:waypoint x="724" y="160" />
+        <di:waypoint x="688" y="234" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_13tq5yi_di" bpmnElement="SequenceFlow_13tq5yi">
         <di:waypoint x="1060" y="216" />
@@ -240,6 +248,20 @@
       <bpmndi:BPMNShape id="ServiceTask_0hxaszv_di" bpmnElement="Task_1qykpkx">
         <dc:Bounds x="960" y="176" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1ymzb4r_di" bpmnElement="TextAnnotation_1ymzb4r">
+        <dc:Bounds x="1086" y="7" width="100" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_11k1xqk_di" bpmnElement="Association_11k1xqk">
+        <di:waypoint x="1060" y="92" />
+        <di:waypoint x="1086" y="77" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_15u323z_di" bpmnElement="TextAnnotation_15u323z">
+        <dc:Bounds x="772" y="226" width="100" height="98" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0hcj89z_di" bpmnElement="Association_0hcj89z">
+        <di:waypoint x="960" y="232" />
+        <di:waypoint x="872" y="259" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
