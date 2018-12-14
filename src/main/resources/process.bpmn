@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0">
-  <bpmn:process id="mn-proceso-espacio" name="PROCESO: PRESUPUESTO ESPACIO" isExecutable="true">
+  <bpmn:process id="mn_presupuesto_espacio" name="PROCESO: PRESUPUESTO ESPACIO" isExecutable="true">
     <bpmn:startEvent id="StartEventProcessStarted" name="Ingresar Formulario" camunda:formKey="embedded:app:forms/start-form.html" camunda:initiator="creadores">
       <bpmn:outgoing>SequenceFlow_02qbtay</bpmn:outgoing>
     </bpmn:startEvent>
@@ -82,17 +82,17 @@
       <bpmn:text>El presupuesto queda a la espera de que el cliente lo acepte o no</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_071jgk1" sourceRef="Task_14hjxvp" targetRef="TextAnnotation_1bve5jy" />
-    <bpmn:textAnnotation id="TextAnnotation_1ymzb4r">
-      <bpmn:text>Reporte y cronograma se guardan en la carpeta REPORTES</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_11k1xqk" sourceRef="Task_19io27j" targetRef="TextAnnotation_1ymzb4r" />
     <bpmn:textAnnotation id="TextAnnotation_15u323z">
-      <bpmn:text>Reporte y cronograma se guardan en la carpeta REPORTES/RECHAZADOS</bpmn:text>
+      <bpmn:text>Reporte y cronograma se mueven a la carpeta REPORTES/RECHAZADOS</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0hcj89z" sourceRef="Task_1qykpkx" targetRef="TextAnnotation_15u323z" />
+    <bpmn:textAnnotation id="TextAnnotation_0xld94y">
+      <bpmn:text>Reporte y cronograma se guardan en la carpeta REPORTES</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0qk4bx8" sourceRef="Task_097teo4" targetRef="TextAnnotation_0xld94y" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mn-proceso-espacio">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mn_presupuesto_espacio">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEventProcessStarted">
         <dc:Bounds x="50" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -156,7 +156,7 @@
         <di:waypoint x="452" y="330" />
         <di:waypoint x="1118" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="464" y="228" width="16" height="12" />
+          <dc:Bounds x="460" y="173" width="16" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_05g968w_di" bpmnElement="SequenceFlow_05g968w">
@@ -248,19 +248,19 @@
       <bpmndi:BPMNShape id="ServiceTask_0hxaszv_di" bpmnElement="Task_1qykpkx">
         <dc:Bounds x="960" y="176" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1ymzb4r_di" bpmnElement="TextAnnotation_1ymzb4r">
-        <dc:Bounds x="1086" y="7" width="100" height="84" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_11k1xqk_di" bpmnElement="Association_11k1xqk">
-        <di:waypoint x="1060" y="92" />
-        <di:waypoint x="1086" y="77" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_15u323z_di" bpmnElement="TextAnnotation_15u323z">
-        <dc:Bounds x="772" y="226" width="100" height="98" />
+        <dc:Bounds x="724" y="250" width="204" height="71" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0hcj89z_di" bpmnElement="Association_0hcj89z">
-        <di:waypoint x="960" y="232" />
-        <di:waypoint x="872" y="259" />
+        <di:waypoint x="960" y="236" />
+        <di:waypoint x="921" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0xld94y_di" bpmnElement="TextAnnotation_0xld94y">
+        <dc:Bounds x="629" y="0" width="224" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0qk4bx8_di" bpmnElement="Association_0qk4bx8">
+        <di:waypoint x="629" y="92" />
+        <di:waypoint x="693" y="55" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

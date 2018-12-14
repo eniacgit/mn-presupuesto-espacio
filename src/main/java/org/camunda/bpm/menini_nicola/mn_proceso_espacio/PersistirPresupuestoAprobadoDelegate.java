@@ -66,6 +66,7 @@ public class PersistirPresupuestoAprobadoDelegate implements JavaDelegate{
 		 String fecha =dateFormat.format(date);	 
 		 presupuesto.setFecha(fecha);
 		 presupuesto.setMoneda(moneda);
+		 presupuesto.setCosto(Float.parseFloat(costo));
 		 presupuesto.setCondicionesVenta(condicionesVenta);
 		 presupuesto.setDescripcion(descripcion);
 		 fachada.insertarPresupuesto(presupuesto);
