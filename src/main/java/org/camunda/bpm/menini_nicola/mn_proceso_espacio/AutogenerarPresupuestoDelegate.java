@@ -16,9 +16,9 @@ public class AutogenerarPresupuestoDelegate implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		Fachada f = new Fachada();
 		String nroCotizacion = f.generarNroCotizaciónFechaActual();
-		execution.setVariable("cotizacion",nroCotizacion);		
+		execution.setVariable("COTIZACION",nroCotizacion);		
 
-		String validez = (String) execution.getVariable("validez");
+		String validez = (String) execution.getVariable("VALIDEZ");
 		execution.setVariable("condiciones", "Esta cotización tiene una validez de " + validez + " días corridos a partir de la fecha que figura en el cabezal\n" +
 		 "El precio NO incluye IVA. Forma de pago: 100% al aceptar la cotización");
 	}

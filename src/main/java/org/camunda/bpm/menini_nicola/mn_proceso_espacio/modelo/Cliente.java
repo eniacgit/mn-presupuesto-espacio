@@ -1,6 +1,6 @@
-package org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects;
+package org.camunda.bpm.menini_nicola.mn_proceso_espacio.modelo;
 
-public class VOCliente {
+public class Cliente {
 	private int idCliente;
 	private String nombre;
 	private String email;
@@ -11,12 +11,12 @@ public class VOCliente {
 	private String tipo;
 	private String direccion; 
 	
-	public VOCliente() {
+	public Cliente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public VOCliente(int idCliente, String nombre, String email, String telefono, String celular, String rut,
+	public Cliente(int idCliente, String nombre, String email, String telefono, String celular, String rut,
 			String razonSocial, String tipo, String direccion) {
 		super();
 		this.idCliente = idCliente;

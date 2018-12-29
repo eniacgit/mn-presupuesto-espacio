@@ -73,9 +73,9 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 	 LOGGER.info("Solicitud de procesamiento por '" + execution.getVariable("customerId") + "'...");		
 	
 	 
-	 String cotizacion = (String) execution.getVariable("cotizacion");
-	 String cliente = (String) execution.getVariable("cliente");
-	 String destinatarioIn= (String)execution.getVariable("email");
+	 String cotizacion = (String) execution.getVariable("COTIZACION");
+	 String cliente = (String) execution.getVariable("CLIENTE");
+	 String destinatarioIn= (String)execution.getVariable("EMAIL");
 	 String email = destinatarioIn;
 	 String descripcion = (String) execution.getVariable("descripcion");
 	 String moneda = (String) execution.getVariable("moneda");
@@ -84,7 +84,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		 moneda ="USD";
 	 else
 		 moneda ="$U";
-	 String costo = (String) execution.getVariable("costo");
+	 String costo = (String) execution.getVariable("COSTO");
 	 String condicionesVenta = (String) execution.getVariable("condiciones");
 	 
 	 
@@ -175,18 +175,7 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		
 		Fachada f = new Fachada();
 		f.enviarConGmail(voEmail);
-		//enviarConGmail(destinatario, asunto, cuerpo,rutaArchivoAdjunto,nombreArchivoAdjunto, "//home//danielo//","libro.pdf");
 		
-		
-		// se envia mail recordatorio a los 3 dias -- NO FUNCIONÓ :(
-	/*	VOEmail voEmail2 = new VOEmail();
-		voEmail2.setAsunto("Email recordatorio");
-		voEmail2.setDestinatario("deleon.danielo@gmail.com");
-		voEmail2.setRemitente("deleon.danielo@gmail.com");
-		voEmail2.setCuerpo("Este email se envía como aviso de que hace 3 dias que el cliente no ha dado respuesta");
-		long delay = 10000L;
-		f.enviarConGmailProgramado(voEmail2, delay);
-		*/
 	} catch (FileNotFoundException | JRException e) {
 		e.printStackTrace();
 	}

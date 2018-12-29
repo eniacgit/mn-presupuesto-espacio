@@ -54,7 +54,7 @@ public class AccesoBD {
 		}
 	}
 	
-	public void insertarCliente(String nombre, String email, String telefono, String celular) throws  SQLException, IOException {
+	public void insertarCliente(String nombre, String email, String telefono, String celular,String rut,String razonSocial,String tipo, String direccion) throws  SQLException, IOException {
 		// Ingresa un nuevo cliente al sistema
 		Connection con = this.conectarBD();
 		Consultas consultas = new Consultas();
@@ -65,6 +65,10 @@ public class AccesoBD {
 		pstmt.setString(2, email);
 		pstmt.setString(3, telefono);
 		pstmt.setString(4, celular);
+		pstmt.setString(5, rut);
+		pstmt.setString(6, razonSocial);
+		pstmt.setString(7, tipo);
+		pstmt.setString(8, direccion);
 		pstmt.executeUpdate();
 		pstmt.close();
 		this.desconectarBD(con);

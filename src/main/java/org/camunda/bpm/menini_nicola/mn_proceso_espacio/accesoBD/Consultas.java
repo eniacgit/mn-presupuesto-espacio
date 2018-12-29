@@ -2,7 +2,8 @@ package org.camunda.bpm.menini_nicola.mn_proceso_espacio.accesoBD;
 
 public class Consultas {
 	public String insertarCliente() {
-		String consulta ="INSERT INTO mn_cliente (nombre, email, telefono, celular) VALUES (?,?,?,?);";
+		//String consulta ="INSERT INTO mn_cliente (nombre, email, telefono, celular) VALUES (?,?,?,?);";
+		String consulta ="INSERT INTO mn_cliente (nombre, email, telefono, celular,rut,razonSocial,tipo,direccion) VALUES (?,?,?,?,?,?,?,?);";
 		return consulta;	
 	}
 	

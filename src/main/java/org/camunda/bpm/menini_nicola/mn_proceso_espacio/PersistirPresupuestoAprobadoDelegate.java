@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.fachada.Fachada;
+import org.camunda.bpm.menini_nicola.mn_proceso_espacio.modelo.Cliente;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOCliente;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOClientePresupuesto;
 import org.camunda.bpm.menini_nicola.mn_proceso_espacio.valueObjects.VOEspacio;
@@ -21,25 +22,40 @@ public class PersistirPresupuestoAprobadoDelegate implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		
-		String destinatarioIn= (String)execution.getVariable("email");	 	 
-		 // Persistencia de datos del cliente
-		 String cliente = (String) execution.getVariable("cliente");
-		 String email = destinatarioIn;
-		 String tel = (String) execution.getVariable("tel");
-		 String celular = (String) execution.getVariable("celular");
+		String destinatarioIn= (String)execution.getVariable("EMAIL");	 	 
+		//traer datos del cliente		
+		Cliente cliente= new Cliente();
+		cliente = (Cliente)execution.getVariable("cliente");
+		
+		// Persistencia de datos del cliente
+		
+		
+//		 String cliente = (String) execution.getVariable("CLIENTE");
+//		 String email = destinatarioIn;
+//		 String tel = (String) execution.getVariable("TEL");
+//		 String celular = (String) execution.getVariable("CELULAR");
 		 
 		 VOCliente voCliente = new VOCliente();
-		 voCliente.setNombre(cliente);
-		 voCliente.setEmail(email);
-		 voCliente.setTelefono(tel);
-		 voCliente.setCelular(celular);
+		 voCliente.setNombre(cliente.getNombre());
+		 voCliente.setEmail(cliente.getEmail());
+		 voCliente.setTelefono(cliente.getTelefono());
+		 voCliente.setCelular(cliente.getCelular());
+		 voCliente.setTipo(cliente.getTipo());
+		 voCliente.setRut(cliente.getRut());
+		 voCliente.setRazonSocial(cliente.getRazonSocial());
+		 voCliente.setDireccion(cliente.getDireccion());	
+		 
+//		 voCliente.setNombre(cliente);
+//		 voCliente.setEmail(email);
+//		 voCliente.setTelefono(tel);
+//		 voCliente.setCelular(celular);
 		 
 		 Fachada fachada = new Fachada();
-		 if (!fachada.existeCliente(cliente)) {
+		 if (!fachada.existeCliente(voCliente.getNombre())) {
 			 fachada.insertarCliente(voCliente);
 		 }
 		 
-		 String cotizacion = (String) execution.getVariable("cotizacion");	 
+		 String cotizacion = (String) execution.getVariable("COTIZACION");	 
 		 String moneda = (String) execution.getVariable("moneda");
 		 
 		 if (moneda.equals("dolares"))
@@ -47,7 +63,7 @@ public class PersistirPresupuestoAprobadoDelegate implements JavaDelegate{
 		 else
 			 moneda ="$U";
 		 
-		 String costo = (String) execution.getVariable("costo");
+		 String costo = (String) execution.getVariable("COSTO");
 		 byte estado = 1; // Estados: 0 (no aprobado, 1 aprobado)
 		 String cronograma = (String) execution.getVariable("cronograma");	 
 		 String condicionesVenta = (String) execution.getVariable("condiciones");

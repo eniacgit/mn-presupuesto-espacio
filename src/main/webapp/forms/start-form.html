@@ -1,46 +1,119 @@
-<strong>Proceso Espacio</strong>
+<center>
+	<h3>
+		<strong>Presupuesto Espacio</strong>
+	</h3>
+	<p>Ingresar Datos del Cliente</p>
+</center>
 
-<p>
-  Ingresar Formulario
-</p>
+<form role="form" name="form" class="form-horizontal">
 
-<form role="form" class="form-horizontal">
+	<script cam-script type="text/form-script">  
+		$scope.tipoClientes=["CORPORATIVO","CONSUMIDOR FINAL"]   
+		var cliente = $scope.cliente = {};
+		camForm.on('form-loaded', function() {
+    	// declaro una variable 'json' nombrada 'cliente' 
+    	camForm.variableManager.createVariable({
+        	name: 'cliente',
+        	type: 'Object',
+        	value: cliente,
+			valueInfo: {
+				serializationDataFormat:'application/json',
+				objectTypeName:'org.camunda.bpm.menini_nicola.mn_proceso_espacio.modelo.Cliente'
+			}
+      	});
+   	 });
+  </script>	
+  
   <div class="control-group">
     <div class="controls">
               
-     <label for="cliente" class="control-label">Cliente *</label>
-      <input type="text" 
-             cam-variable-name="cliente"
+    <label for="CLIENTE" class="control-label">Cliente *</label>
+      <input type="text"
+      		 class= "form-control"
+      		 name="CLIENTE" 
+             cam-variable-name="CLIENTE"
              cam-variable-type="String"
              maxlength=100
              required
-             class="form-control" />
+             ng-model="cliente.nombre"/>
+             
+      <!--validar ingreso de cliente-->
+      <p>
+        <span style="color:red" ng-show="form.CLIENTE.$dirty && form.CLIENTE.$invalid">
+  		  <span ng-show="form.CLIENTE.$error.required">cliente es obligatorio</span>
+  		</span>
+      </p>
+      
+      <label for="TIPO_CLIENTE" class="control-label">Tipo de Cliente *</label>
+      <br>
+      <select ng-model="cliente.tipo" 
+              ng-options="x for x in tipoClientes"
+              required>
+              <option value="">--ingresar tipo de cliente--</option>
+	  </select>
+      <br>
+      
+       <div ng-if="cliente.tipo == 'CORPORATIVO' "> 
+        <label for="RUT" class="control-label">RUT *</label>
+      	<input type="text"
+      		   class= "form-control"
+      		   name="RUT" 
+               cam-variable-name="RUT"
+               cam-variable-type="String"
+               maxlength=100
+               required
+               ng-model="cliente.rut"/>
+            
+        <!--validar ingreso de rut-->
+      	<p>
+      		<span style="color:red" ng-show="form.RUT.$dirty && form.RUT.$invalid">
+  				<span ng-show="form.RUT.$error.required">rut es obligatorio</span>
+  			</span>
+      	</p>
+      
+      	<label for="RAZON_SOCIAL" class="control-label">Razón Social *</label>
+      	<input type="text"
+      	       class= "form-control"
+      		   name="RAZON_SOCIAL" 
+               cam-variable-name="RAZON_SOCIAL"
+               cam-variable-type="String"
+               maxlength=100
+               required
+               ng-model="cliente.razonSocial"/>
+               
+      	<!--validar ingreso de razón social-->
+      	<p>
+      		<span style="color:red" ng-show="form.RAZON_SOCIAL.$dirty && form.RAZON_SOCIAL.$invalid">
+  				<span ng-show="form.RAZON_SOCIAL.$error.required">razón social es obligatoria</span>
+  			</span>
+      	</p>
+      </div>      
     
-      <label for="email" class="control-label">E-mail *</label>
+      <label for="EMAIL" class="control-label">E-mail *</label>
       <input type="text" 
-             cam-variable-name="email"
+             cam-variable-name="EMAIL"
              cam-variable-type="String"
              maxlength=50
              required
              ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/"
-             ng-model="email"
+             ng-model="cliente.email"
              class="form-control" />
              
-      <label for="tel" class="control-label">Tel</label>
+      <label for="TEL" class="control-label">Tel</label>
       <input type="text" 
-             cam-variable-name="tel"
+             cam-variable-name="TEL"
              cam-variable-type="String"
              ng-pattern="/^\d{8}$/"
-             ng-model="tel"
+             ng-model="cliente.telefono"
              class="form-control" />
              
-      <label for="celular" class="control-label">Celular *</label>
+      <label for="CELULAR" class="control-label">Celular *</label>
       <input type="text" 
-             cam-variable-name="celular"
+             cam-variable-name="CELULAR"
              cam-variable-type="String"
              required
              ng-pattern="/^0[\d]{8}$/"
-             ng-model="celular" 
+             ng-model="cliente.celular" 
              class="form-control" />
       
       <label for="descripcion" class="control-label">Proyecto Espacio</label>
@@ -52,18 +125,18 @@
   			<option value="dolares">U$S</option>
 	  </select>
            
-      <label for="costo" class="control-label">Costo *</label>
+      <label for="COSTO" class="control-label">Costo *</label>
       <input type="text" 
-             cam-variable-name="costo"
+             cam-variable-name="COSTO"
              cam-variable-type="String"
              required
              ng-pattern="/^[0-9]+([,][0-9]+)?$/"
              ng-model="costo"
              class="form-control" />
       
-      <label for="validez" class="control-label">Validez (días)</label>
+      <label for="VALIDEZ" class="control-label">Validez (días)</label>
       <input type="text" 
-             cam-variable-name="validez"
+             cam-variable-name="VALIDEZ"
              cam-variable-type="String"
              ng-pattern="/^[0-9]/"
              ng-model="validez"             
@@ -77,7 +150,4 @@
     </div>
   </div>
 
-  <script cam-script type="text/form-script">
-  // custom JavaScript goes here
-  </script>
-</form>
+  </form>

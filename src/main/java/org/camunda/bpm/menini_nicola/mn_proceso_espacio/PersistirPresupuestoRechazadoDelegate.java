@@ -41,12 +41,12 @@ public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		
-		String destinatarioIn= (String)execution.getVariable("email");	 	 
+		String destinatarioIn= (String)execution.getVariable("EMAIL");	 	 
 		 // Persistencia de datos del cliente
-		 String cliente = (String) execution.getVariable("cliente");
+		 String cliente = (String) execution.getVariable("CLIENTE");
 		 String email = destinatarioIn;
-		 String tel = (String) execution.getVariable("tel");
-		 String celular = (String) execution.getVariable("celular");
+		 String tel = (String) execution.getVariable("TEL");
+		 String celular = (String) execution.getVariable("CELULAR");
 		 
 		 VOCliente voCliente = new VOCliente();
 		 voCliente.setNombre(cliente);
@@ -59,7 +59,7 @@ public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 			 fachada.insertarCliente(voCliente);
 		 }
 		 
-		 String cotizacion = (String) execution.getVariable("cotizacion");	 
+		 String cotizacion = (String) execution.getVariable("COTIZACION");	 
 		 String moneda = (String) execution.getVariable("moneda");
 		 
 		 if (moneda.equals("dolares"))
@@ -67,7 +67,7 @@ public class PersistirPresupuestoRechazadoDelegate implements JavaDelegate{
 		 else
 			 moneda ="$U";
 		 
-		 String costo = (String) execution.getVariable("costo");
+		 String costo = (String) execution.getVariable("COSTO");
 		 byte estado = 0; // Estados: 0 (no aprobado, 1 aprobado)
 		 String cronograma = (String) execution.getVariable("cronograma");	 
 		 String condicionesVenta = (String) execution.getVariable("condiciones");
