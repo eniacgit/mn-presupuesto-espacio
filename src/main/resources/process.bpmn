@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.16.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0">
   <bpmn:process id="mn_presupuesto_espacio" name="PRESUPUESTO ESPACIO" isExecutable="true">
     <bpmn:startEvent id="StartEventProcessStarted" name="Ingresar Formulario" camunda:formKey="embedded:app:forms/start-form.html" camunda:initiator="creadores">
       <bpmn:outgoing>SequenceFlow_02qbtay</bpmn:outgoing>
@@ -8,7 +8,7 @@
       <bpmn:incoming>SequenceFlow_10prirj</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_02qbtay" sourceRef="StartEventProcessStarted" targetRef="Task_1mlaju7" />
-    <bpmn:userTask id="Task_0mp1w3l" name="Aprobar Presupuesto&#10;" camunda:formKey="embedded:app:forms/aprobarPresupuesto.html" camunda:assignee="ddeleon" camunda:candidateUsers="javier" camunda:candidateGroups="aprobadores">
+    <bpmn:userTask id="Task_0mp1w3l" name="Aprobar Presupuesto&#10;" camunda:formKey="embedded:app:forms/aprobarPresupuesto.html" camunda:candidateGroups="aprobadores">
       <bpmn:incoming>SequenceFlow_05g968w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1eyf88j</bpmn:outgoing>
     </bpmn:userTask>
@@ -38,7 +38,7 @@
       <bpmn:outgoing>SequenceFlow_05g968w</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1df5hiv" sourceRef="Task_14hjxvp" targetRef="ExclusiveGateway_0pai5sy" />
-    <bpmn:userTask id="Task_14hjxvp" name="Aguardando respuesta del Cliente" camunda:formKey="embedded:app:forms/aprobarAceptacionPresupuesto.html" camunda:assignee="ddeleon" camunda:candidateUsers="javier" camunda:candidateGroups="aprobadores">
+    <bpmn:userTask id="Task_14hjxvp" name="Aguardando respuesta del Cliente" camunda:formKey="embedded:app:forms/aprobarAceptacionPresupuesto.html" camunda:candidateGroups="aprobadores">
       <bpmn:incoming>SequenceFlow_0k4syug</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1df5hiv</bpmn:outgoing>
     </bpmn:userTask>
