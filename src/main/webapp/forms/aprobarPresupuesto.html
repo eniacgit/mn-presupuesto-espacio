@@ -5,7 +5,7 @@
 	<p>Aprobar Presupuesto</p>
 </center>
 
-<form role="form" class="form-horizontal">
+<form role="form" name="form" class="form-horizontal">
 
  <script cam-script type="text/form-script">
   // custom JavaScript goes here
@@ -30,17 +30,40 @@
              class="form-control" />
     
      <label for="CLIENTE" class="control-label">Cliente *</label>
-      <input type="text" 
+      <input type="text"
+      		 class= "form-control"
+      		 name="CLIENTE" 
              cam-variable-name="CLIENTE"
              cam-variable-type="String"
-             class="form-control" />
+             maxlength=100
+             required
+             ng-model="cliente.nombre"/>
+             
+      <!--validar ingreso de cliente-->
+      <p>
+        <span style="color:red" ng-show="form.CLIENTE.$dirty && form.CLIENTE.$invalid">
+  		  <span ng-show="form.CLIENTE.$error.required">cliente es obligatorio</span>
+  		</span>
+      </p>
     
       <label for="EMAIL" class="control-label">E-mail *</label>
       <input type="text" 
              cam-variable-name="EMAIL"
              cam-variable-type="String"
-             class="form-control" />
-             
+             maxlength=50
+             required
+             ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/"
+             ng-model="cliente.email"
+             class="form-control" 
+             name="EMAIL"/>
+      
+      <!--validar ingreso de email-->
+      	<p>
+      		<span style="color:red" ng-show="form.EMAIL.$dirty && form.EMAIL.$invalid">
+  				<span ng-show="form.EMAIL.$error.required">el email es obligatorio</span>
+  			</span>
+      	</p>
+                           
       <label for="TEL" class="control-label">Tel</label>
       <input type="text" 
              cam-variable-name="TEL"
@@ -51,22 +74,50 @@
        <input type="text" 
              cam-variable-name="CELULAR"
              cam-variable-type="String"
-             class="form-control" />
+             required
+             ng-pattern="/^0[\d]{8}$/"
+             ng-model="cliente.celular" 
+             class="form-control" 
+             name="CELULAR"/>
+             
+      <!--validar ingreso de celular-->
+	   <p>
+	   	  <span style="color:red" ng-show="form.CELULAR.$dirty && form.CELULAR.$invalid">
+		  <span ng-show="form.CELULAR.$error.required">el celular es obligatorio</span>
+		  </span>
+	   </p>
       
-     <label for="descripcion" class="control-label">Proyecto Espacio</label>
-      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4"/>
+     <label for="descripcion" class="control-label">Proyecto Espacio *</label>
+      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4" required name="DESCRIPCION"/>
+      <!--validar ingreso de descripcion-->
+      	<p>
+      		<span style="color:red" ng-show="form.DESCRIPCION.$dirty && form.DESCRIPCION.$invalid">
+  				<span ng-show="form.DESCRIPCION.$error.required">la descripcion es obligatoria</span>
+  			</span>
+      	</p>
 	  
-      <label class="control-label">Moneda</label>
+      <label class="control-label">Moneda *</label>
       <address>		      
 		      <span ng-if="moneda == 'pesos'">$U</span>
 			  <span ng-if="moneda == 'dolares'">USD</span>
 	  </address>
 	  	             
-      <label for="COSTO" class="control-label">Costo</label>
+      <label for="COSTO" class="control-label">Costo *</label>
       <input type="text" 
              cam-variable-name="COSTO"
              cam-variable-type="String"
-             class="form-control" />
+             required
+             ng-pattern="/^[0-9]+([,][0-9]+)?$/"
+             ng-model="costo"
+             class="form-control" 
+             name="COSTO" />
+      
+      <!--validar ingreso de costo-->
+      	<p>
+      		<span style="color:red" ng-show="form.COSTO.$dirty && form.COSTO.$invalid">
+  				<span ng-show="form.COSTO.$error.required">el costo es obligatorio</span>
+  			</span>
+      	</p>
       
       <label for="condiciones" class="control-label">Condiciones</label>
       <textarea cam-variable-name="condiciones" cam-variable-type="String" class="form-control"/>
@@ -84,6 +135,4 @@
   	</div>
   </div>
   
- 
-
 </form>

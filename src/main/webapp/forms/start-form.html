@@ -97,7 +97,15 @@
              required
              ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/"
              ng-model="cliente.email"
-             class="form-control" />
+             class="form-control" 
+             name="EMAIL"/>
+             
+       <!--validar ingreso de email-->
+      	<p>
+      		<span style="color:red" ng-show="form.EMAIL.$dirty && form.EMAIL.$invalid">
+  				<span ng-show="form.EMAIL.$error.required">el email es obligatorio</span>
+  			</span>
+      	</p>
              
       <label for="TEL" class="control-label">Tel</label>
       <input type="text" 
@@ -114,12 +122,27 @@
              required
              ng-pattern="/^0[\d]{8}$/"
              ng-model="cliente.celular" 
-             class="form-control" />
+             class="form-control" 
+             name="CELULAR"/>
+             
+      <!--validar ingreso de celular-->
+	   <p>
+	   	  <span style="color:red" ng-show="form.CELULAR.$dirty && form.CELULAR.$invalid">
+		  <span ng-show="form.CELULAR.$error.required">el celular es obligatorio</span>
+		  </span>
+	   </p>
       
-      <label for="descripcion" class="control-label">Proyecto Espacio</label>
-      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4"/>
+      <label for="descripcion" class="control-label">Proyecto Espacio *</label>
+      <textarea cam-variable-name="descripcion" cam-variable-type="String" class="form-control" rows="4" required name="DESCRIPCION"/>
+      <!--validar ingreso de descripcion-->
+      	<p>
+      		<span style="color:red" ng-show="form.DESCRIPCION.$dirty && form.DESCRIPCION.$invalid">
+  				<span ng-show="form.DESCRIPCION.$error.required">la descripcion es obligatoria</span>
+  			</span>
+      	</p>
+      
           
-      <label for="moneda" class="control-label">Moneda</label>
+      <label for="moneda" class="control-label">Moneda *</label>
       <select cam-variable-name="moneda" cam-variable-type="String" class="form-control">
   			<option value="pesos" checked>$</option>
   			<option value="dolares">U$S</option>
@@ -132,7 +155,15 @@
              required
              ng-pattern="/^[0-9]+([,][0-9]+)?$/"
              ng-model="costo"
-             class="form-control" />
+             class="form-control" 
+             name="COSTO" />
+      
+      <!--validar ingreso de costo-->
+      	<p>
+      		<span style="color:red" ng-show="form.COSTO.$dirty && form.COSTO.$invalid">
+  				<span ng-show="form.COSTO.$error.required">el costo es obligatorio</span>
+  			</span>
+      	</p>
       
       <label for="VALIDEZ" class="control-label">Validez (días)</label>
       <input type="text" 
@@ -142,12 +173,21 @@
              ng-model="validez"             
              class="form-control" />
 
-	  <label for="cronograma" class="control-label">Adjuntar cronograma</label>	
+	  <label for="cronograma" class="control-label">Adjuntar cronograma *</label>	
 	  <input type="file"
 	  	  accept="application/pdf"
 	      cam-variable-name="INVOICE_DOCUMENT"
 	      cam-variable-type="File"
-	      cam-max-filesize="10000000" />                 	  	            
+	      cam-max-filesize="10000000" 
+	      name="CRONOGRAMA"/>                 	  	     
+	      
+	      <!--validar ingreso de costo-->
+      	<p>
+      		<span style="color:red" ng-show="form.CRONOGRAMA.$dirty && form.CRONOGRAMA.$invalid">
+  				<span ng-show="form.CRONOGRAMA.$error.required">el cronograma es obligatorio</span>
+  			</span>
+      	</p>
+	             
     </div>
   </div>
 
