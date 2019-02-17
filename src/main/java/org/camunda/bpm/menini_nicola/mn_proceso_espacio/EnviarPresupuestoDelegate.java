@@ -169,8 +169,13 @@ public class EnviarPresupuestoDelegate implements JavaDelegate {
 		
 		VOEmail voEmail = new VOEmail();
 		voEmail.setDestinatario(destinatario);
-		voEmail.setAsunto("Correo de prueba enviado desde proceso en camunda mediante Java");
-		voEmail.setCuerpo("Esta es una prueba de correo, y si lo estas viendo que es que quedó resuelto como mandar mails desde camunda...");
+		voEmail.setAsunto("Presupuesto: " + descripcion + " - Menini Nicola");
+		voEmail.setCuerpo("Estimado " + cliente + 
+				",\n\n Respondiendo a su solicitud adjuntamos el presupuesto solicitado y el cronograma de reuniones.\n\n"+
+				"Cualquier consulta quedamos a las órdenes.\n\n" +
+				"Saluda atte. \n\n\n" +
+				"El equipo de Menini Nicola\n" +
+				"https://menini-nicola.com");
 		voEmail.setLstArchivosAdjuntos(lstArchivosAdjuntos);
 		
 		Fachada f = new Fachada();
